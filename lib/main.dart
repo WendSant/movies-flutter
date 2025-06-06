@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 import 'screens/filmes_home.dart';
+import 'dart:io';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-void main() => runApp(FilmesApp());
+void main() {
+  // Inicialize o databaseFactory apenas para desktop (Linux, Windows, macOS)
+  if (!Platform.isAndroid && !Platform.isIOS) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
+
+  runApp(const FilmesApp());
+}
 
 class FilmesApp extends StatelessWidget {
   const FilmesApp({super.key});
