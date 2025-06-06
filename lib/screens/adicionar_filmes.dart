@@ -66,7 +66,8 @@ class _AdicionarFilmePageState extends State<AdicionarFilmePage> {
               TextFormField(
                 controller: _tituloController,
                 decoration: InputDecoration(labelText: 'Título'),
-                validator: (v) => v == null || v.isEmpty ? 'Informe o título' : null,
+                validator:
+                    (v) => v == null || v.isEmpty ? 'Informe o título' : null,
               ),
               TextFormField(
                 controller: _imageUrlController,
@@ -79,12 +80,10 @@ class _AdicionarFilmePageState extends State<AdicionarFilmePage> {
               DropdownButtonFormField<String>(
                 value: _faixaEtaria,
                 decoration: InputDecoration(labelText: 'Faixa Etária'),
-                items: _faixas.map((faixa) {
-                  return DropdownMenuItem(
-                    value: faixa,
-                    child: Text(faixa),
-                  );
-                }).toList(),
+                items:
+                    _faixas.map((faixa) {
+                      return DropdownMenuItem(value: faixa, child: Text(faixa));
+                    }).toList(),
                 onChanged: (value) {
                   setState(() {
                     _faixaEtaria = value!;
@@ -122,10 +121,7 @@ class _AdicionarFilmePageState extends State<AdicionarFilmePage> {
                 maxLines: 4,
               ),
               SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: _salvarFilme,
-                child: Text('Salvar'),
-              ),
+              ElevatedButton(onPressed: _salvarFilme, child: Text('Salvar')),
             ],
           ),
         ),
