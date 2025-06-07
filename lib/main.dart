@@ -20,6 +20,7 @@ class FilmesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Gerenciador de Filmes',
+      debugShowCheckedModeBanner: false, // Adicione esta linha
       theme: ThemeData(primarySwatch: Colors.blue),
       home: FilmesHomePage(), // Página de filmes como tela inicial
     );

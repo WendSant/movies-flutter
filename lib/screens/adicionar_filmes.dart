@@ -140,10 +140,16 @@ class _AdicionarFilmePageState extends State<AdicionarFilmePage> {
                 maxLines: 4,
               ),
               SizedBox(height: 24),
-              ElevatedButton(onPressed: _salvarFilme, child: Text('Salvar')),
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _salvarFilme,
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.save, color: Colors.white),
+        tooltip: 'Salvar',
+        shape: const CircleBorder(),
       ),
     );
   }

@@ -58,4 +58,9 @@ class DatabaseHelper {
       whereArgs: [filme.id],
     );
   }
+
+  Future<int> deleteFilme(int id) async {
+    final dbClient = await db;
+    return await dbClient.delete('filmes', where: 'id = ?', whereArgs: [id]);
+  }
 }
