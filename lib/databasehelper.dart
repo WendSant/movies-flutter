@@ -48,4 +48,14 @@ class DatabaseHelper {
     final maps = await dbClient.query('filmes');
     return maps.map((map) => Filme.fromMap(map)).toList();
   }
+
+  Future<int> updateFilme(Filme filme) async {
+    final dbClient = await db;
+    return await dbClient.update(
+      'filmes',
+      filme.toMap(),
+      where: 'id = ?',
+      whereArgs: [filme.id],
+    );
+  }
 }

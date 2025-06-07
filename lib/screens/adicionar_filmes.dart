@@ -4,7 +4,8 @@ import '../databasehelper.dart';
 import '../model/filme.dart';
 
 class AdicionarFilmePage extends StatefulWidget {
-  const AdicionarFilmePage({super.key});
+  final Filme? filme;
+  const AdicionarFilmePage({super.key, this.filme});
 
   @override
   State<AdicionarFilmePage> createState() => _AdicionarFilmePageState();
@@ -37,8 +38,8 @@ class _AdicionarFilmePageState extends State<AdicionarFilmePage> {
 
   Future<void> _salvarFilme() async {
     if (_formKey.currentState!.validate()) {
-      final novoFilme = Filme(
-        id: 0,
+      final filmeEditado = Filme(
+        id: widget.filme?.id ?? 0,
         imageUrl: _imageUrlController.text,
         titulo: _tituloController.text,
         genero: _generoController.text,
@@ -48,8 +49,27 @@ class _AdicionarFilmePageState extends State<AdicionarFilmePage> {
         descricao: _descricaoController.text,
         ano: int.tryParse(_anoController.text) ?? 2024,
       );
-      await DatabaseHelper().insertFilme(novoFilme);
+      if (widget.filme == null) {
+        await DatabaseHelper().insertFilme(filmeEditado);
+      } else {
+        await DatabaseHelper().updateFilme(filmeEditado);
+      }
       Navigator.pop(context, true);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.filme != null) {
+      _tituloController.text = widget.filme!.titulo;
+      _imageUrlController.text = widget.filme!.imageUrl;
+      _generoController.text = widget.filme!.genero;
+      _duracaoController.text = widget.filme!.duracao;
+      _descricaoController.text = widget.filme!.descricao;
+      _anoController.text = widget.filme!.ano.toString();
+      _faixaEtaria = widget.filme!.faixaEtaria;
+      _pontuacao = widget.filme!.pontuacao;
     }
   }
 
@@ -66,8 +86,8 @@ class _AdicionarFilmePageState extends State<AdicionarFilmePage> {
               TextFormField(
                 controller: _tituloController,
                 decoration: InputDecoration(labelText: 'Título'),
-                validator:
-                    (v) => v == null || v.isEmpty ? 'Informe o título' : null,
+                validator: (v) =>
+                    v == null || v.isEmpty ? 'Informe o título' : null,
               ),
               TextFormField(
                 controller: _imageUrlController,
@@ -80,10 +100,9 @@ class _AdicionarFilmePageState extends State<AdicionarFilmePage> {
               DropdownButtonFormField<String>(
                 value: _faixaEtaria,
                 decoration: InputDecoration(labelText: 'Faixa Etária'),
-                items:
-                    _faixas.map((faixa) {
-                      return DropdownMenuItem(value: faixa, child: Text(faixa));
-                    }).toList(),
+                items: _faixas.map((faixa) {
+                  return DropdownMenuItem(value: faixa, child: Text(faixa));
+                }).toList(),
                 onChanged: (value) {
                   setState(() {
                     _faixaEtaria = value!;
